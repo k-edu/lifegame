@@ -4,7 +4,7 @@ import numpy as np
 import pygame
 import scipy
 import scipy.signal
-from .patterns import grider
+from src.patterns import grider
 
 
 def paste_pattern(grid, pattern, x, y, color):
@@ -140,7 +140,7 @@ while running:
         reset_screen = True
 
     if pygame.key.get_pressed()[pygame.K_SPACE]:
-        playing = pygame.key.get_pressed()[pygame.K_LSHIFT]
+        playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
     # flip() the display to put your work on screen
     pygame.display.flip()
 
