@@ -4,7 +4,7 @@ import numpy as np
 import pygame
 import scipy
 import scipy.signal
-from src.patterns import grider
+from patterns import grider
 
 
 def paste_pattern(grid, pattern, x, y, color):
