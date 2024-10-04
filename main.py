@@ -124,8 +124,8 @@ while running:
         x, y = pygame.mouse.get_pos()
         x = x // cell_width
         y = y // cell_height
-        for i in range(10):
-            for j in range(10):
+        for i in range(1):
+            for j in range(1):
                 paste_pattern(
                     next_grid,
                     grider2,
