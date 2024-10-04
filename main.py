@@ -4,6 +4,7 @@ import numpy as np
 import pygame
 import scipy
 import scipy.signal
+from pygame.locals import *
 from patterns import grider
 
 
@@ -138,7 +139,10 @@ while running:
     if pygame.key.get_pressed()[pygame.K_DOWN]:
         scale /= 1.1
         reset_screen = True
-
+    if pygame.key.get_pressed()[pygame.K_LEFT]:
+        pygame.Surface.scroll(-10,0)
+    if pygame.key.get_pressed()[pygame.K_RIGHT]:
+        pygame.Surface.scroll(10,0)
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
     # flip() the display to put your work on screen
