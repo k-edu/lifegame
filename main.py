@@ -4,7 +4,7 @@ import numpy as np
 import pygame
 import scipy
 import scipy.signal
-from patterns import grider
+from patterns2 import grider2
 
 
 def paste_pattern(grid, pattern, x, y, color):
@@ -135,13 +135,13 @@ while running:
         x, y = pygame.mouse.get_pos()
         x = x // cell_width
         y = y // cell_height
-        for i in range(10):
-            for j in range(10):
+        for i in range(1):
+            for j in range(1):
                 paste_pattern(
                     next_grid,
-                    grider,
-                    x + len(grider[0]) * i,
-                    y + len(grider) * j,
+                    grider2,
+                    x + len(grider2[0]) * i,
+                    y + len(grider2) * j,
                     2,
                 )
 
