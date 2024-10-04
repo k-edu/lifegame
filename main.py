@@ -23,7 +23,7 @@ running = True
 
 grid_width = 500
 grid_height = 300
-
+surface = pygame.display.set_mode((grid_width,grid_height))
 scale = 1.0
 
 background_color = "white"
@@ -140,9 +140,9 @@ while running:
         scale /= 1.1
         reset_screen = True
     if pygame.key.get_pressed()[pygame.K_LEFT]:
-        pygame.Surface.scroll(-10,0)
+        surface.scroll(-10,0)
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
-        pygame.Surface.scroll(10,0)
+        surface.scroll(10,0)
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
     # flip() the display to put your work on screen
