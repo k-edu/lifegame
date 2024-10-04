@@ -131,7 +131,7 @@ while running:
                     grider,
                     x + len(grider[0]) * i,
                     y + len(grider) * j,
-                    random.randint(1, 3),
+                    2,
                 )
 
     if pygame.key.get_pressed()[pygame.K_UP]:
