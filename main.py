@@ -72,6 +72,7 @@ for _ in range(grid_height * grid_width // 5):
 next_grid = grid.copy()
 reset_screen = True
 playing = False
+point = 0
 while running:
     cell_width = int(10 * scale)
     cell_height = int(10 * scale)
@@ -109,6 +110,15 @@ while running:
                         color,
                         (x * cell_width, y * cell_height, cell_width, cell_height),
                     )
+    
+    # point per second
+    point += 1
+    font1 = pygame.font.SysFont("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf", 40)
+    text = font1.render(str(point), True, (255,0,0))
+    pygame.draw.rect(
+        screen, "white", (1250, 10, 150, 40)
+    )
+    screen.blit(text, (1250,10))
 
     # ontouch
     if pygame.mouse.get_pressed()[0]:
