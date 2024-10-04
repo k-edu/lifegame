@@ -133,6 +133,7 @@ while running:
                     random.randint(1, 3),
                 )
 
+
     if pygame.key.get_pressed()[pygame.K_UP]:
         scale *= 1.1
         reset_screen = True
