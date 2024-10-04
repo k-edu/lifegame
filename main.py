@@ -31,9 +31,9 @@ background_color = "white"
 def get_color(id: int) -> str:
     return {
         0: background_color,
-        1: "lightblue",
-        2: "red",
-        3: (100, 255, 150),
+        1: (75, 178, 255),
+        2: (255, 75, 178),
+        3: (178, 255, 75),
     }[id]
 
 
