@@ -77,9 +77,6 @@ point = 0
 scrollx=0
 scrolly=0
 font1 = pygame.font.SysFont("Serif", bold=True, size=40)
-last_pressed1 = 100000000000000000000000000000000000000000000
-last_pressed2 = 100000000000000000000000000000000000000000000
-last_pressed3 = 100000000000000000000000000000000000000000000
 
 def test_push(d):
     K = [pygame.K_1,
