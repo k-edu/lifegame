@@ -162,7 +162,7 @@ while running:
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
     new_w, new_h = pygame.display.get_surface().get_size()
-    if (w != W) or (h != H):
+    if (w != new_w) or (h != new_h):
          reset_screen = True
          w = new_w
          h = new_h
