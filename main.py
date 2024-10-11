@@ -192,8 +192,8 @@ while running:
             (mouseX - scrollx ) // cell_width - len(grider2[0]) // 2 ,
             (mouseY - scrolly) // cell_height - len(grider2) // 2 ,
             2,
-         )
-         n2 = n2 - 1
+        )
+        n2 = n2 - 1
     if n3 >= 1:
         k = None
         mouseX, mouseY = pygame.mouse.get_pos()
