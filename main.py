@@ -54,6 +54,7 @@ def next_generation(grid: np.ndarray) -> np.ndarray:
     next = most_id * alive_mat
     return next
 
+blue_n, green_n, red_n = 0, 0, 0
 
 grid = np.zeros((grid_height, grid_width), dtype=int)
 for _ in range(grid_height * grid_width // 5):
@@ -64,10 +65,13 @@ for _ in range(grid_height * grid_width // 5):
     deg %= 360
     if 0 <= deg < 120:
         grid[i][j] = 1
+        blue_n += 1
     elif 120 <= deg < 240:
         grid[i][j] = 2
+        red_n += 1
     else:
         grid[i][j] = 3
+        green_n += 1
 
 
 next_grid = grid.copy()
@@ -83,6 +87,7 @@ n3 = 0
 
 w, h = pygame.display.get_surface().get_size()
 font1 = pygame.font.SysFont("Serif", bold=True, size=40)
+font2 = pygame.font.SysFont("ubuntu", bold=True, size=20)
 
 k = None
 def test_push(d):
@@ -109,11 +114,24 @@ while running:
         elif event.type == pygame.KEYDOWN:
             k = event.key
     changed_positions = np.argwhere(next_grid != grid)
+    past_grid = grid.copy()
     grid = next_grid.copy()
 
     # draw grid
     for pos in changed_positions:
         y, x = pos
+        if past_grid[y][x] == 1:
+            blue_n -= 1
+        if past_grid[y][x] == 2:
+            red_n -= 1
+        if past_grid[y][x] == 3:
+            green_n -= 1
+        if grid[y][x] == 1:
+            blue_n += 1
+        if grid[y][x] == 2:
+            red_n += 1
+        if grid[y][x] == 3:
+            green_n += 1
         pygame.draw.rect(
             screen,
             get_color(int(grid[y][x])),
@@ -146,6 +164,42 @@ while running:
     )
     screen.blit(text, (10,10))
 
+    # count cells
+    gcn = font2.render(str(green_n), True, (178, 255, 75))
+    rcn = font2.render(str(red_n), True, (255, 75, 178))
+    bcn = font2.render(str(blue_n), True, (75, 178, 255))
+    text_c_cell = font2.render("セルの数：", True, (0, 0, 0, 255))
+    kanma = font2.render(',', True, (0, 0, 0, 255))
+    pygame.draw.rect(
+        screen, "white", (10, 140, 185, 20)
+    )
+    screen.blit(gcn, (10, 140))
+    screen.blit(rcn, (70, 140))
+    screen.blit(bcn, (130, 140))
+
+    # ontouch
+    if pygame.mouse.get_pressed()[0]:
+        x, y = pygame.mouse.get_pos()
+        x = x // cell_width
+        y = y // cell_height
+        if 0 <= x < grid_width and 0 <= y < grid_height:
+            next_grid[y][x] = random.randint(1, 3)
+
+    if pygame.mouse.get_pressed()[2]:
+        x, y = pygame.mouse.get_pos()
+        x = x // cell_width
+        y = y // cell_height
+        for i in range(1):
+            for j in range(1):
+                paste_pattern(
+                    next_grid,
+                    grider2,
+                    x + len(grider2[0]) * i,
+                    y + len(grider2) * j,
+                    2,
+                )                    # メッセージを所得
+                                     # ボタンの種類を取得
+        
     if b==4:
         scale *= 1.1
         reset_screen = True
