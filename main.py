@@ -5,6 +5,7 @@ import pygame
 import scipy
 import scipy.signal
 from patterns2 import grider2
+from patterns import grider
 
 
 def paste_pattern(grid, pattern, x, y, color):
@@ -80,6 +81,14 @@ scrolly=0
 w, h = pygame.display.get_surface().get_size()
 font1 = pygame.font.SysFont("Serif", bold=True, size=40)
 
+k = None
+def test_push(d):
+    K = [pygame.K_1,
+    pygame.K_2,
+    pygame.K_3,
+    pygame.K_4][d - 1]
+    if k == K:
+        return True
 
 while running:
     cell_width = int(10 * scale)
@@ -93,6 +102,8 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN: # マウスボタンが押されたとき
             x,y = event.pos                             # マウスカーソルの座標を取得
             b  = event.button
+        elif event.type == pygame.KEYDOWN:
+            k = event.key
     changed_positions = np.argwhere(next_grid != grid)
     grid = next_grid.copy()
 
@@ -131,29 +142,6 @@ while running:
     )
     screen.blit(text, (10,10))
 
-    # ontouch
-    if pygame.mouse.get_pressed()[0]:
-        x, y = pygame.mouse.get_pos()
-        x = x // cell_width
-        y = y // cell_height
-        if 0 <= x < grid_width and 0 <= y < grid_height:
-            next_grid[y][x] = random.randint(1, 3)
-
-    if b==3:
-        x, y = pygame.mouse.get_pos()
-        x = x // cell_width
-        y = y // cell_height
-        for i in range(1):
-            for j in range(1):
-                paste_pattern(
-                    next_grid,
-                    grider2,
-                    x + len(grider2[0]) * i,
-                    y + len(grider2) * j,
-                    2,
-                )                    # メッセージを所得
-                                     # ボタンの種類を取得
-        
     if b==4:
         scale *= 1.1
         reset_screen = True
@@ -180,6 +168,36 @@ while running:
          w = new_w
          h = new_h
     # flip() the display to put your work on screen
+    if test_push(1) == True:
+        k = None
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider,
+            mouseX // cell_width - len(grider[0]) // 2,
+            mouseY // cell_height - len(grider) // 2,
+            2,
+        )
+    if test_push(2) == True:
+        k = None
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider2,
+            mouseX // cell_width - len(grider2[0]) // 2,
+            mouseY // cell_height - len(grider2) // 2,
+            2,
+    )
+    if test_push(3) == True:
+        k = None
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider,
+            mouseX // cell_width,
+            mouseY // cell_height,
+            2,
+    )
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60
