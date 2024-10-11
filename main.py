@@ -76,6 +76,9 @@ playing = False
 point = 0
 scrollx=0
 scrolly=0
+n1 = 0
+n2 = 0
+n3 = 0
 
 
 w, h = pygame.display.get_surface().get_size()
@@ -94,6 +97,7 @@ while running:
     cell_width = int(10 * scale)
     cell_height = int(10 * scale)
     b=0
+    k=0
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
@@ -168,7 +172,7 @@ while running:
          w = new_w
          h = new_h
     # flip() the display to put your work on screen
-    if test_push(1) == True:
+    if n1 >= 1:
         k = None
         mouseX, mouseY = pygame.mouse.get_pos()
         paste_pattern(
@@ -178,7 +182,8 @@ while running:
             mouseY // cell_height - len(grider) // 2,
             2,
         )
-    if test_push(2) == True:
+        n1 = n1 - 1
+    if n2 >= 1:
         k = None
         mouseX, mouseY = pygame.mouse.get_pos()
         paste_pattern(
@@ -188,7 +193,8 @@ while running:
             mouseY // cell_height - len(grider2) // 2,
             2,
     )
-    if test_push(3) == True:
+        n2 = n2 - 1
+    if n3 >= 1:
         k = None
         mouseX, mouseY = pygame.mouse.get_pos()
         paste_pattern(
@@ -198,6 +204,21 @@ while running:
             mouseY // cell_height,
             2,
     )
+        n3 = n3 - 1
+        
+    if point >200:
+        if test_push(1) == True:
+            n1 = n1 + 1
+            point = point - 200
+    if point >1000:
+        if test_push(2) == True:
+            n2 = n2 + 1
+            point = point - 1000
+    if point > 10000:
+        if test_push(3) == True:
+            n3 = n3 + 1
+            point = point - 100000
+    
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60
