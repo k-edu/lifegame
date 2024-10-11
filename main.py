@@ -6,6 +6,7 @@ import scipy
 import scipy.signal
 from patterns2 import grider2
 from patterns import grider
+from patterns3 import grider3
 
 
 def paste_pattern(grid, pattern, x, y, color):
@@ -199,9 +200,9 @@ while running:
         mouseX, mouseY = pygame.mouse.get_pos()
         paste_pattern(
             next_grid,
-            grider,
-            mouseX // cell_width,
-            mouseY // cell_height,
+            grider3,
+            mouseX // cell_width - len(grider3[0]) // 2,
+            mouseY // cell_height - len(grider3) // 2,
             2,
     )
         n3 = n3 - 1
@@ -214,10 +215,10 @@ while running:
         if test_push(2) == True:
             n2 = n2 + 1
             point = point - 1000
-    if point > 10000:
+    if point > 10:
         if test_push(3) == True:
             n3 = n3 + 1
-            point = point - 100000
+            point = point - 1
     
     pygame.display.flip()
 
