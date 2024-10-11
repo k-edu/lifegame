@@ -120,11 +120,11 @@ while running:
     # point per second
     if playing:
         point += 1
-        text = font1.render(str(point), True, (255,0,0))
-        pygame.draw.rect(
-            screen, "white", (10 , 10, 150, 40)
-        )
-        screen.blit(text, (10,10))
+    text = font1.render(str(point), True, (255,0,0))
+    pygame.draw.rect(
+        screen, "white", (10 , 10, 150, 40)
+    )
+    screen.blit(text, (10,10))
 
     # ontouch
     if pygame.mouse.get_pressed()[0]:
