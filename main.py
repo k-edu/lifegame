@@ -174,8 +174,8 @@ while running:
         paste_pattern(
             next_grid,
             grider,
-            mouseX // cell_width - len(grider[0]) // 2,
-            mouseY // cell_height - len(grider) // 2,
+            (mouseX - scrollx ) // cell_width - len(grider[0]) // 2 ,
+            (mouseY - scrolly) // cell_height - len(grider) // 2 ,
             2,
         )
     if test_push(2) == True:
@@ -184,18 +184,18 @@ while running:
         paste_pattern(
             next_grid,
             grider2,
-            mouseX // cell_width - len(grider2[0]) // 2,
-            mouseY // cell_height - len(grider2) // 2,
+            (mouseX - scrollx ) // cell_width - len(grider2[0]) // 2 ,
+            (mouseY - scrolly) // cell_height - len(grider2) // 2 ,
             2,
-    )
+        )
     if test_push(3) == True:
         k = None
         mouseX, mouseY = pygame.mouse.get_pos()
         paste_pattern(
             next_grid,
             grider,
-            mouseX // cell_width,
-            mouseY // cell_height,
+            (mouseX - scrollx ) // cell_width,
+            (mouseY - scrolly) // cell_height,
             2,
     )
     pygame.display.flip()
