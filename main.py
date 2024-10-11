@@ -56,21 +56,21 @@ def next_generation(grid: np.ndarray) -> np.ndarray:
 blue_n, green_n, red_n = 0, 0, 0
 
 grid = np.zeros((grid_height, grid_width), dtype=int)
-for _ in range(grid_height * grid_width // 5):
-    i = random.randint(0, grid_height - 1)
-    j = random.randint(0, grid_width - 1)
-    radian = np.arctan2(i - grid_height / 2, j - grid_width / 2)
-    deg = np.degrees(radian)
-    deg %= 360
-    if 0 <= deg < 120:
-        grid[i][j] = 1
-        blue_n += 1
-    elif 120 <= deg < 240:
-        grid[i][j] = 2
-        red_n += 1
-    else:
-        grid[i][j] = 3
-        green_n += 1
+# for _ in range(grid_height * grid_width // 5):
+#     i = random.randint(0, grid_height - 1)
+#     j = random.randint(0, grid_width - 1)
+#     radian = np.arctan2(i - grid_height / 2, j - grid_width / 2)
+#     deg = np.degrees(radian)
+#     deg %= 360
+#     if 0 <= deg < 120:
+#         grid[i][j] = 1
+#         blue_n += 1
+#     elif 120 <= deg < 240:
+#         grid[i][j] = 2
+#         red_n += 1
+#     else:
+#         grid[i][j] = 3
+#         green_n += 1
 
 
 next_grid = grid.copy()
@@ -105,31 +105,18 @@ while running:
     # draw grid
     for pos in changed_positions:
         y, x = pos
+        if past_grid[y][x] == 1:
+            blue_n -= 1
+        if past_grid[y][x] == 2:
+            red_n -= 1
+        if past_grid[y][x] == 3:
+            green_n -= 1
         if grid[y][x] == 1:
             blue_n += 1
-            if past_grid[y][x] == 2:
-                red_n -= 1
-            if past_grid[y][x] == 3:
-                green_n -= 1
         if grid[y][x] == 2:
             red_n += 1
-            if past_grid[y][x] == 1:
-                blue_n -= 1
-            if past_grid[y][x] == 3:
-                green_n -= 1
         if grid[y][x] == 3:
             green_n += 1
-            if past_grid[y][x] == 2:
-                red_n -= 1
-            if past_grid[y][x] == 1:
-                blue_n -= 1
-        if grid[y][x] == 0:
-            if past_grid[y][x] == 1:
-                blue_n -= 1
-            if past_grid[y][x] == 2:
-                red_n -= 1
-            if past_grid[y][x] == 3:
-                green_n -= 1
         pygame.draw.rect(
             screen,
             get_color(int(grid[y][x])),
