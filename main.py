@@ -177,8 +177,8 @@ while running:
         paste_pattern(
             next_grid,
             grider,
-            mouseX // cell_width,
-            mouseY // cell_height,
+            mouseX // cell_width - len(grider[0]) // 2,
+            mouseY // cell_height - len(grider) // 2,
             2,
     )
     if test_push(2) == True:
