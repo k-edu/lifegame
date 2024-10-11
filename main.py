@@ -4,7 +4,7 @@ import numpy as np
 import pygame
 import scipy
 import scipy.signal
-from patterns import grider
+from patterns2 import grider2
 
 
 def paste_pattern(grid, pattern, x, y, color):
@@ -75,7 +75,9 @@ playing = False
 point = 0
 scrollx=0
 scrolly=0
+
 w, h = pygame.display.get_surface().get_size()
+font1 = pygame.font.SysFont("Serif", bold=True, size=40)
 
 while running:
     cell_width = int(10 * scale)
@@ -117,12 +119,11 @@ while running:
     
     # point per second
     point += 1
-    font1 = pygame.font.SysFont("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf", 40)
     text = font1.render(str(point), True, (255,0,0))
     pygame.draw.rect(
-        screen, "white", (1250, 10, 150, 40)
+        screen, "white", (10 , 10, 150, 40)
     )
-    screen.blit(text, (1250,10))
+    screen.blit(text, (10,10))
 
     # ontouch
     if pygame.mouse.get_pressed()[0]:
@@ -136,13 +137,13 @@ while running:
         x, y = pygame.mouse.get_pos()
         x = x // cell_width
         y = y // cell_height
-        for i in range(10):
-            for j in range(10):
+        for i in range(1):
+            for j in range(1):
                 paste_pattern(
                     next_grid,
-                    grider,
-                    x + len(grider[0]) * i,
-                    y + len(grider) * j,
+                    grider2,
+                    x + len(grider2[0]) * i,
+                    y + len(grider2) * j,
                     2,
                 )
 
