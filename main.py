@@ -4,7 +4,7 @@ import numpy as np
 import pygame
 import scipy
 import scipy.signal
-from patterns import grider
+from patterns2 import grider2
 
 
 def paste_pattern(grid, pattern, x, y, color):
@@ -72,8 +72,14 @@ for _ in range(grid_height * grid_width // 5):
 next_grid = grid.copy()
 reset_screen = True
 playing = False
+point = 0
 scrollx=0
 scrolly=0
+
+
+w, h = pygame.display.get_surface().get_size()
+font1 = pygame.font.SysFont("Serif", bold=True, size=40)
+
 
 while running:
     cell_width = int(10 * scale)
@@ -115,6 +121,14 @@ while running:
                         color,
                         (x * cell_width+scrollx, y * cell_height+scrolly, cell_width, cell_height),
                     )
+    
+    # point per second
+    point += 1
+    text = font1.render(str(point), True, (255,0,0))
+    pygame.draw.rect(
+        screen, "white", (10 , 10, 150, 40)
+    )
+    screen.blit(text, (10,10))
 
     # ontouch
     if pygame.mouse.get_pressed()[0]:
@@ -128,13 +142,13 @@ while running:
         x, y = pygame.mouse.get_pos()
         x = x // cell_width
         y = y // cell_height
-        for i in range(10):
-            for j in range(10):
+        for i in range(1):
+            for j in range(1):
                 paste_pattern(
                     next_grid,
-                    grider,
-                    x + len(grider[0]) * i,
-                    y + len(grider) * j,
+                    grider2,
+                    x + len(grider2[0]) * i,
+                    y + len(grider2) * j,
                     2,
                 )                    # メッセージを所得
                                      # ボタンの種類を取得
@@ -159,6 +173,11 @@ while running:
         reset_screen = True
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
+    new_w, new_h = pygame.display.get_surface().get_size()
+    if (w != new_w) or (h != new_h):
+         reset_screen = True
+         w = new_w
+         h = new_h
     # flip() the display to put your work on screen
     pygame.display.flip()
 
