@@ -75,6 +75,7 @@ playing = False
 point = 0
 scrollx=0
 scrolly=0
+w, h = pygame.display.get_surface().get_size()
 
 while running:
     cell_width = int(10 * scale)
@@ -159,6 +160,11 @@ while running:
         reset_screen = True
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
+    new_w, new_h = pygame.display.get_surface().get_size()
+    if (w != W) or (h != H):
+         reset_screen = True
+         w = new_w
+         h = new_h
     # flip() the display to put your work on screen
     pygame.display.flip()
 
