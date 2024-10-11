@@ -78,6 +78,7 @@ scrolly=0
 
 w, h = pygame.display.get_surface().get_size()
 font1 = pygame.font.SysFont("Serif", bold=True, size=40)
+time_point = False
 
 while running:
     cell_width = int(10 * scale)
@@ -118,12 +119,14 @@ while running:
                     )
     
     # point per second
-    point += 1
-    text = font1.render(str(point), True, (255,0,0))
-    pygame.draw.rect(
-        screen, "white", (10 , 10, 150, 40)
-    )
-    screen.blit(text, (10,10))
+    if time_point:
+        point += 1
+        text = font1.render(str(point), True, (255,0,0))
+        pygame.draw.rect(
+            screen, "white", (10 , 10, 150, 40)
+        )
+        screen.blit(text, (10,10))
+        time_point = False
 
     # ontouch
     if pygame.mouse.get_pressed()[0]:
