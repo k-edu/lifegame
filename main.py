@@ -85,7 +85,6 @@ while running:
     cell_width = int(10 * scale)
     cell_height = int(10 * scale)
     b=0
-    d=0
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
@@ -94,9 +93,6 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN: # マウスボタンが押されたとき
             x,y = event.pos                             # マウスカーソルの座標を取得
             b  = event.button
-        elif event.type == pygame.MOUSEBUTTONUP: # マウスボタンが押されたとき
-            x,y = event.pos                             # マウスカーソルの座標を取得
-            d  = event.button
     changed_positions = np.argwhere(next_grid != grid)
     grid = next_grid.copy()
 
