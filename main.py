@@ -73,6 +73,9 @@ next_grid = grid.copy()
 reset_screen = True
 playing = False
 point = 0
+scrollx=0
+scrolly=0
+
 while running:
     cell_width = int(10 * scale)
     cell_height = int(10 * scale)
@@ -91,7 +94,7 @@ while running:
         pygame.draw.rect(
             screen,
             get_color(int(grid[y][x])),
-            (x * cell_width, y * cell_height, cell_width, cell_height),
+            (x * cell_width+scrollx, y * cell_height+scrolly, cell_width, cell_height),
         )
 
     if playing:
@@ -108,7 +111,7 @@ while running:
                     pygame.draw.rect(
                         screen,
                         color,
-                        (x * cell_width, y * cell_height, cell_width, cell_height),
+                        (x * cell_width+scrollx, y * cell_height+scrolly, cell_width, cell_height),
                     )
     
     # point per second
@@ -139,7 +142,7 @@ while running:
                     grider,
                     x + len(grider[0]) * i,
                     y + len(grider) * j,
-                    random.randint(1, 3),
+                    2,
                 )
 
     if pygame.key.get_pressed()[pygame.K_UP]:
@@ -148,7 +151,12 @@ while running:
     if pygame.key.get_pressed()[pygame.K_DOWN]:
         scale /= 1.1
         reset_screen = True
-
+    if pygame.key.get_pressed()[pygame.K_LEFT]:
+        scrollx += 10
+        reset_screen = True
+    if pygame.key.get_pressed()[pygame.K_RIGHT]:
+        scrollx -= 10
+        reset_screen = True
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
     # flip() the display to put your work on screen
