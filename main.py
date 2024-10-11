@@ -5,6 +5,7 @@ import pygame
 import scipy
 import scipy.signal
 from patterns2 import grider2
+from patterns import grider
 
 
 def paste_pattern(grid, pattern, x, y, color):
@@ -79,17 +80,29 @@ playing = False
 point = 0
 scrollx=0
 scrolly=0
+n1 = 0
+n2 = 0
+n3 = 0
 
 
 w, h = pygame.display.get_surface().get_size()
 font1 = pygame.font.SysFont("Serif", bold=True, size=40)
 font2 = pygame.font.SysFont("ubuntu", bold=True, size=20)
 
+k = None
+def test_push(d):
+    K = [pygame.K_1,
+    pygame.K_2,
+    pygame.K_3,
+    pygame.K_4][d - 1]
+    if k == K:
+        return True
 
 while running:
     cell_width = int(10 * scale)
     cell_height = int(10 * scale)
     b=0
+    k=0
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
@@ -98,6 +111,8 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN: # マウスボタンが押されたとき
             x,y = event.pos                             # マウスカーソルの座標を取得
             b  = event.button
+        elif event.type == pygame.KEYDOWN:
+            k = event.key
     changed_positions = np.argwhere(next_grid != grid)
     past_grid = grid.copy()
     grid = next_grid.copy()
@@ -211,6 +226,53 @@ while running:
          w = new_w
          h = new_h
     # flip() the display to put your work on screen
+    if n1 >= 1:
+        k = None
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider,
+            (mouseX - scrollx ) // cell_width - len(grider[0]) // 2 ,
+            (mouseY - scrolly) // cell_height - len(grider) // 2 ,
+            2,
+        )
+        n1 = n1 - 1
+    if n2 >= 1:
+        k = None
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider2,
+            (mouseX - scrollx ) // cell_width - len(grider2[0]) // 2 ,
+            (mouseY - scrolly) // cell_height - len(grider2) // 2 ,
+            2,
+        )
+        n2 = n2 - 1
+    if n3 >= 1:
+        k = None
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider,
+            (mouseX - scrollx ) // cell_width,
+            (mouseY - scrolly) // cell_height,
+            2,
+    )
+        n3 = n3 - 1
+        
+    if point >200:
+        if test_push(1) == True:
+            n1 = n1 + 1
+            point = point - 200
+    if point >1000:
+        if test_push(2) == True:
+            n2 = n2 + 1
+            point = point - 1000
+    if point > 10000:
+        if test_push(3) == True:
+            n3 = n3 + 1
+            point = point - 100000
+    
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60
