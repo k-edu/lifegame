@@ -123,7 +123,8 @@ while running:
                     )
     
     # point per second
-    point += 1
+    if playing:
+        point += 1
     text = font1.render(str(point), True, (255,0,0))
     pygame.draw.rect(
         screen, "white", (10 , 10, 150, 40)
