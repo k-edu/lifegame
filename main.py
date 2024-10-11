@@ -139,7 +139,7 @@ while running:
         if 0 <= x < grid_width and 0 <= y < grid_height:
             next_grid[y][x] = random.randint(1, 3)
 
-    if pygame.mouse.get_pressed()[2]:
+    if b==3:
         x, y = pygame.mouse.get_pos()
         x = x // cell_width
         y = y // cell_height
