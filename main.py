@@ -76,18 +76,23 @@ point = 0
 scrollx=0
 scrolly=0
 
+
 w, h = pygame.display.get_surface().get_size()
 font1 = pygame.font.SysFont("Serif", bold=True, size=40)
+
 
 while running:
     cell_width = int(10 * scale)
     cell_height = int(10 * scale)
+    b=0
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+        elif event.type == pygame.MOUSEBUTTONDOWN: # マウスボタンが押されたとき
+            x,y = event.pos                             # マウスカーソルの座標を取得
+            b  = event.button
     changed_positions = np.argwhere(next_grid != grid)
     grid = next_grid.copy()
 
@@ -145,12 +150,13 @@ while running:
                     x + len(grider2[0]) * i,
                     y + len(grider2) * j,
                     2,
-                )
-
-    if pygame.key.get_pressed()[pygame.K_UP]:
+                )                    # メッセージを所得
+                                     # ボタンの種類を取得
+        
+    if b==4:
         scale *= 1.1
         reset_screen = True
-    if pygame.key.get_pressed()[pygame.K_DOWN]:
+    if b==5:
         scale /= 1.1
         reset_screen = True
     if pygame.key.get_pressed()[pygame.K_LEFT]:
@@ -158,6 +164,12 @@ while running:
         reset_screen = True
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
         scrollx -= 10
+        reset_screen = True
+    if pygame.key.get_pressed()[pygame.K_UP]:
+        scrolly += 10
+        reset_screen = True
+    if pygame.key.get_pressed()[pygame.K_DOWN]:
+        scrolly -= 10
         reset_screen = True
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
