@@ -5,6 +5,7 @@ import pygame
 import scipy
 import scipy.signal
 from patterns2 import grider2
+from patterns import grider
 
 
 def paste_pattern(grid, pattern, x, y, color):
@@ -76,6 +77,17 @@ point = 0
 scrollx=0
 scrolly=0
 font1 = pygame.font.SysFont("Serif", bold=True, size=40)
+last_pressed1 = 100000000000000000000000000000000000000000000
+last_pressed2 = 100000000000000000000000000000000000000000000
+last_pressed3 = 100000000000000000000000000000000000000000000
+
+def test_push(d):
+    K = [pygame.K_1,
+    pygame.K_2,
+    pygame.K_3,
+    pygame.K_4][d - 1]
+    if pygame.key.get_pressed()[K]:
+        return True
 
 while running:
     cell_width = int(10 * scale)
@@ -124,26 +136,26 @@ while running:
     screen.blit(text, (10,10))
 
     # ontouch
-    if pygame.mouse.get_pressed()[0]:
-        x, y = pygame.mouse.get_pos()
-        x = x // cell_width
-        y = y // cell_height
-        if 0 <= x < grid_width and 0 <= y < grid_height:
-            next_grid[y][x] = random.randint(1, 3)
-
-    if pygame.mouse.get_pressed()[2]:
-        x, y = pygame.mouse.get_pos()
-        x = x // cell_width
-        y = y // cell_height
-        for i in range(1):
-            for j in range(1):
-                paste_pattern(
-                    next_grid,
-                    grider2,
-                    x + len(grider2[0]) * i,
-                    y + len(grider2) * j,
-                    2,
-                )
+    #if pygame.mouse.get_pressed()[0]:
+    #    x, y = pygame.mouse.get_pos()
+    #    x = x // cell_width
+    #    y = y // cell_height
+    #    if 0 <= x < grid_width and 0 <= y < grid_height:
+    #        next_grid[y][x] = random.randint(1, 3)
+#
+    #if pygame.mouse.get_pressed()[2]:
+    #    x, y = pygame.mouse.get_pos()
+    #    x = x // cell_width
+    #    y = y // cell_height
+    #    for i in range(1):
+    #        for j in range(1):
+    #            paste_pattern(
+    #                next_grid,
+    #                grider2,
+    #                x + len(grider2[0]) * i,
+    #                y + len(grider2) * j,
+    #                2,
+    #            )
 
     if pygame.key.get_pressed()[pygame.K_UP]:
         scale *= 1.1
@@ -160,6 +172,33 @@ while running:
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         playing = not pygame.key.get_pressed()[pygame.K_LSHIFT]
     # flip() the display to put your work on screen
+    if test_push(1) == True:
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider,
+            mouseX // cell_width,
+            mouseY // cell_height,
+            2,
+    )
+    if test_push(2) == True:
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider2,
+            mouseX // cell_width - len(grider2[0]) // 2,
+            mouseY // cell_height - len(grider2) // 2,
+            2,
+    )
+    if test_push(3) == True:
+        mouseX, mouseY = pygame.mouse.get_pos()
+        paste_pattern(
+            next_grid,
+            grider,
+            mouseX // cell_width,
+            mouseY // cell_height,
+            2,
+    )
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60
