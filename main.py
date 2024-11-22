@@ -122,20 +122,22 @@ while running:
             x,y = event.pos                             # マウスカーソルの座標を取得
             b  = event.button
             if save_button.collidepoint(event.pos):
-                f = open('myfile.txt', 'w')
-                f.write(json.dumps(grid.tolist()))
-                f.close()
+                    if menu:
+                        f = open('myfile.txt', 'w')
+                        f.write(json.dumps(grid.tolist()))
+                        f.close()
             if load_button.collidepoint(event.pos):
-                f = open('myfile.txt', 'r')
-                next_grid=np.array(json.loads(f.read()))
-                f.close()
-                print("load")
+                    if menu:
+                        f = open('myfile.txt', 'r')
+                        next_grid=np.array(json.loads(f.read()))
+                        f.close()
+                        print("load")
         elif event.type == pygame.KEYDOWN:
             k = event.key
             if k == pygame.K_ESCAPE:
+                reset_screen = True
                 playing = False
                 menu = not menu
-                print(menu)
     changed_positions = np.argwhere(next_grid != grid)
     past_grid = grid.copy()
     grid = next_grid.copy()
