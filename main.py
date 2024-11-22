@@ -4,6 +4,7 @@ import numpy as np
 import pygame
 import scipy
 import scipy.signal
+import json
 from patterns2 import grider2
 from patterns import grider
 
@@ -27,6 +28,7 @@ grid_height = 300
 scale = 1.0
 
 background_color = "white"
+
 
 
 def get_color(id: int) -> str:
@@ -77,6 +79,7 @@ for _ in range(grid_height * grid_width // 5):
 next_grid = grid.copy()
 reset_screen = True
 playing = False
+menu = False
 point = 0
 scrollx=0
 scrolly=0
@@ -88,6 +91,9 @@ n3 = 0
 w, h = pygame.display.get_surface().get_size()
 font1 = pygame.font.SysFont("Serif", bold=True, size=40)
 font2 = pygame.font.SysFont("ubuntu", bold=True, size=20)
+menu_width = 105
+menu_height =50
+
 
 k = None
 def test_push(d):
@@ -103,6 +109,10 @@ while running:
     cell_height = int(10 * scale)
     b=0
     k=0
+    save_button=pygame.Rect((screen.get_width()//2)-menu_width//2,100,menu_width,menu_height)
+    save_button_text=font1.render("save",True,(255,255,255))
+    load_button=pygame.Rect((screen.get_width()//2)-menu_width//2,160,menu_width,menu_height)
+    load_button_text=font1.render("load",True,(255,255,255))
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
@@ -111,8 +121,21 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN: # マウスボタンが押されたとき
             x,y = event.pos                             # マウスカーソルの座標を取得
             b  = event.button
+            if save_button.collidepoint(event.pos):
+                f = open('myfile.txt', 'w')
+                f.write(json.dumps(grid.tolist()))
+                f.close()
+            if load_button.collidepoint(event.pos):
+                f = open('myfile.txt', 'r')
+                next_grid=np.array(json.loads(f.read()))
+                f.close()
+                print("load")
         elif event.type == pygame.KEYDOWN:
             k = event.key
+            if k == pygame.K_ESCAPE:
+                playing = False
+                menu = not menu
+                print(menu)
     changed_positions = np.argwhere(next_grid != grid)
     past_grid = grid.copy()
     grid = next_grid.copy()
@@ -199,7 +222,14 @@ while running:
                     2,
                 )                    # メッセージを所得
                                      # ボタンの種類を取得
-        
+    
+    if menu:
+        pygame.draw.rect(screen,(20,20,20),save_button)
+        screen.blit(save_button_text,(save_button.left+5,save_button.top+5))
+        pygame.draw.rect(screen,(20,20,20),load_button)
+        screen.blit(load_button_text,(load_button.left+5,load_button.top+5))
+
+
     if b==4:
         scale *= 1.1
         reset_screen = True
